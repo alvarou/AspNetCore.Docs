@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Drawing;
 using System.Linq;
 
 namespace RazorPagesMovie.Test.UI
@@ -58,6 +59,33 @@ namespace RazorPagesMovie.Test.UI
             //assert
             //Check we have other windows open already
             Assert.AreEqual(driver.WindowHandles.Count, 1);
+        }
+
+        [TestMethod]
+        public void SetWindowSize()
+        {
+            //arrange
+            Size size = new Size(1024, 768);
+
+            //act
+            driver.Manage().Window.Size = size;
+
+            //assert
+            Assert.AreEqual(size, driver.Manage().Window.Size);
+        }
+
+        [TestMethod]
+        public void MaximiseWindow()
+        {
+            //arrange
+            Size size = new Size(1024, 768);
+
+            //act
+            driver.Manage().Window.Size = size;
+            driver.Manage().Window.Maximize();
+            
+            //assert
+            Assert.AreNotEqual(size, driver.Manage().Window.Size);
         }
     }
 }

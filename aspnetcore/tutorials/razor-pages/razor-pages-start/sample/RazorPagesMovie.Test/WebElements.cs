@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
-using System.Runtime.ConstrainedExecution;
 
 namespace RazorPagesMovie.Test.UI
 {
@@ -93,6 +92,64 @@ namespace RazorPagesMovie.Test.UI
                                     MovieGenreError.Displayed &&
                                     MoviePriceError.Displayed &&
                                     MovieRatingError.Displayed);
+        }
+
+        [TestMethod]
+        public void CreateNewMovie()
+        {
+            //arrange
+            IWebElement rmovies = driver.FindElement(By.ClassName("navbar-brand"));
+            IWebElement createNew;
+            IWebElement create;
+
+            IWebElement title;
+            IWebElement releaseDate;
+            IWebElement genre;
+            IWebElement price;
+            IWebElement rating;
+
+            var titleToType = "Dune";
+            var releaseDateToType = "4/19/2020";
+            var genreToType = "Epic";
+            var priceToType = "99";
+            var ratingToType = "A";
+
+            IWebElement table;
+
+            //act
+            //Browse to form
+            rmovies.Click();
+            createNew = driver.FindElement(By.XPath("/html/body/div/main/p/a"));
+            createNew.Click();
+
+            //Fill fields
+            title = driver.FindElement(By.Id("Movie_Title"));
+            title.SendKeys(titleToType);
+
+            releaseDate = driver.FindElement(By.Id("Movie_ReleaseDate"));
+            releaseDate.SendKeys(releaseDateToType);
+
+            genre = driver.FindElement(By.Id("Movie_Genre"));
+            genre.SendKeys(genreToType);
+
+            price = driver.FindElement(By.Id("Movie_Price"));
+            price.SendKeys(priceToType);
+
+            rating = driver.FindElement(By.Id("Movie_Rating"));
+            rating.SendKeys(ratingToType);
+
+            //submit
+            create = driver.FindElement(By.CssSelector("body > div > main > div.row > div > form > div:nth-child(6) > input"));
+            create.Click();
+
+            //assert
+            table = driver.FindElement(By.ClassName("table"));
+
+            Assert.AreEqual(true, table.Text.Contains(titleToType)
+                                    && table.Text.Contains(releaseDateToType)
+                                   && table.Text.Contains(genreToType)
+                                   && table.Text.Contains(priceToType)
+                                   && table.Text.Contains(ratingToType));
         }
     }
 }
