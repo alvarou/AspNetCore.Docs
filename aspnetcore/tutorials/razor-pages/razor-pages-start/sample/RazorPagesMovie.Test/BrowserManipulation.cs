@@ -1,6 +1,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System;
+using System.Globalization;
+using System.IO;
 
 namespace RazorPagesMovie.Test.UI
 {
@@ -111,6 +114,12 @@ namespace RazorPagesMovie.Test.UI
         [TestCleanup]
         public void TearDown()
         {
+            Screenshot screenShot = ((ITakesScreenshot)driver).GetScreenshot();
+            string path = Directory.GetCurrentDirectory() + "\\AutomatedScreenShot_" + "_" + DateTime.UtcNow.ToString("yyMMddHHmmss", CultureInfo.InvariantCulture) + ".png";
+
+            screenShot.SaveAsFile(path);
+            TestContext.AddResultFile(path);
+
             driver.Quit();
         }
         #endregion

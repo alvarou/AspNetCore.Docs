@@ -55,7 +55,7 @@ namespace RazorPagesMovie.Test.UI
 
             //Close the tab or window
             driver.Close();
-
+            driver.SwitchTo().Window(driver.WindowHandles.First());
             //assert
             //Check we have other windows open already
             Assert.AreEqual(driver.WindowHandles.Count, 1);
